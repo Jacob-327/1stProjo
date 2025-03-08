@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #e3f2fd;
+    }
+    .container {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+    @media (max-width: 768px) {
+      .container {
+        margin: 10px;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-blue-300">
+  <div class="w-full max-w-sm bg-white rounded-2xl shadow-lg p-8 container">
+    <h2 class="text-2xl font-bold text-center mb-6">Patient Login</h2>
+    <form action="javascript:redirectToWelcome()" method="POST" class="space-y-4" aria-label="Patient Login Form">
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" class="mt-1 w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" aria-required="true" aria-describedby="emailHelp">
+      </div>
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" class="mt-1 w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" aria-required="true">
+      </div>
+      <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg focus:ring-4 focus:ring-blue-300 focus:outline-none" aria-label="Login Button">Login</button>
+    </form>
+    <p class="text-sm text-center text-gray-600 mt-4">Don't have an account? <span class="text-blue-500 hover:underline cursor-pointer" aria-label="Sign Up Link" onclick="showSignUpModal()">Sign up</span></p>
+    <p class="text-sm text-center text-blue-500 hover:underline cursor-pointer mt-2" tabindex="0" aria-label="Forgot Password" onclick="showForgotPasswordModal()">Forgot Password?</p>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+      <div class="bg-white p-6 rounded-lg shadow-lg w-80">
+        <h3 class="text-lg font-semibold mb-4">Reset Password</h3>
+        <label for="resetEmail" class="block text-sm font-medium text-gray-700">Email</label>
+        <input type="email" id="resetEmail" placeholder="Enter your email" class="mt-1 w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" aria-required="true">
+        <div class="flex justify-end mt-4">
+          <button onclick="closeForgotPasswordModal()" class="bg-gray-500 text-white px-4 py-2 rounded-lg mr-2">Cancel</button>
+          <button onclick="submitForgotPassword()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">Submit</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sign Up Modal -->
+    <div id="signUpModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+      <div class="bg-white p-6 rounded-lg shadow-lg w-80">
+        <h3 class="text-lg font-semibold mb-4">Sign Up</h3>
+        <form action="javascript:registerPatient()" method="POST" class="space-y-4" aria-label="Patient Sign Up Form">
+          <div>
+            <label for="signUpName" class="block text-sm font-medium text-gray-700">Name</label>
+            <input type="text" id="signUpName" name="signUpName" placeholder="Enter your name" class="mt-1 w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" aria-required="true">
+          </div>
+          <div>
+            <label for="signUpEmail" class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email" id="signUpEmail" name="signUpEmail" placeholder="Enter your email" class="mt-1 w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" aria-required="true">
+          </div>
+          <div>
+            <label for="signUpPassword" class="block text-sm font-medium text-gray-700">Password</label>
+            <input type="password" id="signUpPassword" name="signUpPassword" placeholder="Enter your password" class="mt-1 w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" aria-required="true">
+          </div>
+          <div>
+            <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" class="mt-1 w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" aria-required="true">
+          </div>
+          <div class="flex justify-end mt-4">
+            <button type="button" onclick="closeSignUpModal()" class="bg-gray-500 text-white px-4 py-2 rounded-lg mr-2">Cancel</button>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">Register</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      function showForgotPasswordModal() {
+        document.getElementById('forgotPasswordModal').classList.remove('hidden');
+      }
+
+      function closeForgotPasswordModal() {
+        document.getElementById('forgotPasswordModal').classList.add('hidden');
+      }
+
+      function submitForgotPassword() {
+        const email = document.getElementById('resetEmail').value;
+        if (email) {
+          alert(`Password reset link sent to ${email}`);
+          closeForgotPasswordModal();
+        } else {
+          alert('Please enter your email');
+        }
+      }
+
+      function showSignUpModal() {
+        document.getElementById('signUpModal').classList.remove('hidden');
+      }
+
+      function closeSignUpModal() {
+        document.getElementById('signUpModal').classList.add('hidden');
+      }
+
+      function registerPatient() {
+        const name = document.getElementById('signUpName').value;
+        const email = document.getElementById('signUpEmail').value;
+        const password = document.getElementById('signUpPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (name && email && password && confirmPassword) {
+          if (password === confirmPassword) {
+            alert(`Welcome, ${name}! Your account has been created.`);
+            closeSignUpModal();
+          } else {
+            alert('Passwords do not match. Please try again.');
+          }
+        } else {
+          alert('Please fill out all fields.');
+        }
+      }
+
+      function redirectToWelcome() {
+        window.location.href = 'welcome.html';
+      }
+    </script>
+  </div>
+</body>
+</html>
